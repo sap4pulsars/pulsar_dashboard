@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .vega-actions a {
+        margin-right: 12px;
+        color: #757575;
+        font-weight: normal;
+        font-size: 13px;
+    }
+    .error {
+        color: red;
+    }
+  </style>
+
+<script src="https://cdn.jsdelivr.net/npm//vega@3.3.1"></script>
+<script src="https://cdn.jsdelivr.net/npm//vega-lite@2.6.0"></script>
+<script src="https://cdn.jsdelivr.net/npm//vega-embed@3.14"></script>
+
+</head>
+<body>
+  <div id="vis"></div>
+  <script type="text/javascript">
+    var spec = {"config": {"view": {"width": 400, "height": 300}}, "vconcat": [{"hconcat": [{"data": {"url": "data.json"}, "mark": {"type": "point", "opacity": 1}, "encoding": {"color": {"condition": {"value": "black", "selection": "selector001"}, "value": "#FFFFFFF"}, "opacity": {"value": 1.0}, "tooltip": [{"type": "ordinal", "field": "PSRJ"}, {"type": "quantitative", "field": "ra"}, {"type": "quantitative", "field": "dec"}, {"type": "quantitative", "field": "DM"}, {"type": "quantitative", "field": "P0"}, {"type": "quantitative", "field": "F0"}], "x": {"type": "quantitative", "axis": {"title": "Right Ascention"}, "field": "ra", "scale": {"domain": [0, 360], "zero": false}}, "y": {"type": "quantitative", "axis": {"title": "Declination"}, "field": "dec", "scale": {"domain": [-90, 90], "zero": false}}}, "height": 200, "selection": {"selector001": {"type": "interval", "encodings": ["x"]}}, "width": 450}, {"data": {"url": "data.json"}, "mark": "bar", "encoding": {"color": {"value": "black"}, "tooltip": [{"type": "ordinal", "field": "PSRJ"}, {"type": "quantitative", "field": "ra"}, {"type": "quantitative", "field": "dec"}, {"type": "quantitative", "field": "DM"}, {"type": "quantitative", "field": "P0"}, {"type": "quantitative", "field": "F0"}], "x": {"type": "quantitative", "axis": {"title": "Calculated Distance based on Dispersion Measure (kpc)"}, "bin": {"maxbins": 40}, "field": "log_DIST_DM"}, "y": {"type": "quantitative", "aggregate": "count", "axis": {"title": "Number of Pulsars"}}}, "height": 200, "selection": {"selector001": {"type": "interval", "encodings": ["x"]}, "selector002": {"type": "interval", "bind": "scales", "encodings": ["x", "y"]}}, "width": 450}]}, {"data": {"url": "data.json"}, "mark": {"type": "point", "opacity": 1}, "encoding": {"color": {"condition": {"value": "black", "selection": "selector001"}, "value": "#FFFFFFF"}, "opacity": {"value": 1.0}, "tooltip": [{"type": "ordinal", "field": "PSRJ"}, {"type": "quantitative", "field": "ra"}, {"type": "quantitative", "field": "dec"}, {"type": "quantitative", "field": "DM"}, {"type": "quantitative", "field": "P0"}, {"type": "quantitative", "field": "F0"}], "x": {"type": "quantitative", "axis": {"title": "Model 1"}, "field": "pics"}, "y": {"type": "quantitative", "axis": {"title": "Model 2"}, "field": "peace"}}, "height": 200, "selection": {"selector001": {"type": "interval", "encodings": ["x"]}, "selector007": {"type": "interval", "bind": "scales", "encodings": ["x", "y"]}}, "width": 960}, {"hconcat": [{"data": {"url": "data.json"}, "mark": "point", "encoding": {"color": {"condition": {"value": "black", "selection": "selector001"}, "value": "#FFFFFFF"}, "tooltip": [{"type": "ordinal", "field": "PSRJ"}, {"type": "quantitative", "field": "ra"}, {"type": "quantitative", "field": "dec"}, {"type": "quantitative", "field": "DM"}, {"type": "quantitative", "field": "P0"}, {"type": "quantitative", "field": "F0"}], "x": {"type": "quantitative", "axis": {"title": "Log Spin Frequency"}, "field": "log_F0"}, "y": {"type": "quantitative", "axis": {"title": "Dispersion Measure"}, "field": "DM"}}, "height": 200, "selection": {"selector001": {"type": "interval", "encodings": ["x"]}, "selector003": {"type": "interval", "bind": "scales", "encodings": ["x", "y"]}}, "width": 450}, {"layer": [{"data": {"url": "data.json"}, "mark": {"type": "circle", "color": "black", "size": 5}, "encoding": {"x": {"type": "quantitative", "field": "log_F0"}, "y": {"type": "quantitative", "field": "DM"}}}, {"data": {"url": "data.json"}, "mark": "rect", "encoding": {"color": {"type": "quantitative", "aggregate": "count"}, "x": {"type": "quantitative", "axis": {"title": "Spin Frequency"}, "bin": true, "field": "log_F0"}, "y": {"type": "quantitative", "axis": {"title": "Dispersion Measure"}, "bin": true, "field": "DM"}}, "height": 200, "selection": {"selector001": {"type": "interval", "encodings": ["x"]}, "selector006": {"type": "interval", "bind": "scales", "encodings": ["x", "y"]}}, "width": 450}]}]}, {"data": {"url": "data.json"}, "mark": "area", "encoding": {"color": {"value": "black"}, "x": {"type": "quantitative", "axis": {"title": "Year"}, "field": "DATE", "scale": {"domain": [1960, 2019], "zero": false}}, "y": {"type": "quantitative", "aggregate": "count", "axis": {"title": "Number of Pulsars"}}}, "height": 200, "selection": {"selector005": {"type": "interval", "bind": "scales", "encodings": ["x", "y"]}}, "width": 960}], "title": "Pulsar Dashboard", "$schema": "https://vega.github.io/schema/vega-lite/v2.6.0.json"};
+    var embed_opt = {"mode": "vega-lite"};
+
+    function showError(el, error){
+        el.innerHTML = ('<div class="error">'
+                        + '<p>JavaScript Error: ' + error.message + '</p>'
+                        + "<p>This usually means there's a typo in your chart specification. "
+                        + "See the javascript console for the full traceback.</p>"
+                        + '</div>');
+        throw error;
+    }
+    const el = document.getElementById('vis');
+    vegaEmbed("#vis", spec, embed_opt)
+      .catch(error => showError(el, error));
+  </script>
+</body>
+</html>
