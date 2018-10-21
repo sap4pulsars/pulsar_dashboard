@@ -24,6 +24,9 @@ RUN apt-get install -y curl grep sed dpkg && \
 RUN conda install -c conda-forge typing altair vega_datasets notebook vega 
 RUN pip install astropy psrqpy selenium
 
+COPY simple_dashboard.py /home
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 CMD [ "/bin/bash" ]
+
+WORKDIR /home
